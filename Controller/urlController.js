@@ -19,7 +19,7 @@ const shortUrl = async (req, res) => {
     const { url } = req.body;
     const value = await client.get(url);
     if(value){
-        return res.status(200).json({ url: value });
+        return res.status(200).json({message:"url come from cache (redis) memory" , url: value });
     }
     if (!url) {
       res.status(400).json({ message: "Url required" });
@@ -38,7 +38,7 @@ const shortUrl = async (req, res) => {
     }
 
     await client.set(url, shortedUrl);
-    res.status(200).json({ url: urlResult });
+    res.status(200).json({url: urlResult });
   } catch (error) {
     console.log(error)
     res.json({ message: "Url not shorted" });
